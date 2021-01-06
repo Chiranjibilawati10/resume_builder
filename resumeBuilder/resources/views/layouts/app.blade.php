@@ -73,6 +73,16 @@
         </nav>
 
         <main class="py-4 container">
+            {{-- validation errros --}}
+            <div>
+                @if(session()->has('errors'))
+                    @foreach ($errors->all() as $e)
+                        <div class="alert alert-danger" role="alert">
+                            <p>{{$e}}</p>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
             @yield('content')
         </main>
     </div>

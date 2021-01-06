@@ -16,6 +16,7 @@
         </div>
     @endforeach
 
-    <a name="" class="btn btn-primary mt-4" href="{{ route('education.create') }}" role="button">Add Another Education</a>
+    <a name="" class="btn btn-primary mt-3" href="{{ route('education.create') }}" role="button">Add Another Education</a>
+    <a name="" class="btn btn-primary mt-3" href="{{ route('experience.index') }}" role="button">Work History</a>
     
 @endsection

@@ -4,15 +4,6 @@
     <h2>Edit Education Details</h2>
     
     <div class="row">
-        <div>
-            @if(session()->has('errors'))
-                @foreach ($errors->all() as $e)
-                    <div class="alert alert-danger" role="alert">
-                        <p>{{$e}}</p>
-                    </div>
-                @endforeach
-            @endif
-        </div>
         <form class="col-md-4 offset-md-4" action="{{ route('education.update', $education) }}" method="POST">
         @csrf
         @method('PUT')
@@ -30,7 +21,7 @@
           
             <!-- Degree input -->
             <div class="form-outline mb-4">
-              <input type="text" name="degree" class="form-control" maxlength="10" value="{{$education->degree}}"/>
+              <input type="text" name="degree" class="form-control" value="{{$education->degree}}"/>
               <label class="form-label" >Degree</label>
             </div>
             

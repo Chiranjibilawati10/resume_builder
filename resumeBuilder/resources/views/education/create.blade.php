@@ -4,15 +4,6 @@
     <h2>Education Details</h2>
     
     <div class="row">
-        <div>
-            @if(session()->has('errors'))
-                @foreach ($errors->all() as $e)
-                    <div class="alert alert-danger" role="alert">
-                        <p>{{$e}}</p>
-                    </div>
-                @endforeach
-            @endif
-        </div>
         <form class="col-md-4 offset-md-4" action="/education" method="POST">
         @csrf
             <!-- Schoolname input -->
@@ -29,7 +20,7 @@
           
             <!-- Degree input -->
             <div class="form-outline mb-4">
-              <input type="text" name="degree" class="form-control" maxlength="10" />
+              <input type="text" name="degree" class="form-control" />
               <label class="form-label" >Degree</label>
             </div>
             
