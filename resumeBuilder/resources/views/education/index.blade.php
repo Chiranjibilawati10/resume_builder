@@ -15,8 +15,16 @@
             </div>
         </div>
     @endforeach
+    <a  href=" {{route('education.create')}} " role="button">+ Add Education</a>
 
-    <a name="" class="btn btn-primary mt-3" href="{{ route('education.create') }}" role="button">Add Another Education</a>
-    <a name="" class="btn btn-primary mt-3" href="{{ route('experience.index') }}" role="button">Work History</a>
-    
+    <div class="row mt-3">
+        <div class="col text-left">
+            <a class="btn btn-secondary" href=" {{route('education.create')}} " role="button">Back</a>
+        </div>
+
+        <div class="col text-right">
+            <a class=" btn btn-primary" href=" {{route('experience.index')}} " role="button">Work History</a>
+        </div>
+    </div>
+
 @endsection

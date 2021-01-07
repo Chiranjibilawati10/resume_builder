@@ -16,7 +16,15 @@
             </div>
         </div>
     @endforeach
-
-    <a name="" class="btn btn-primary mt-4" href="{{ route('skill.create') }}" role="button">Add Another Skill</a>
+    <div class="mt-2">
+        <a href=" {{route('skill.create')}} ">+ Add skill</a>
+    </div>
+    <div class="col text-left">
+        <a class="btn btn-secondary" href=" {{route('experience.index')}} " role="button">Back</a>
+    </div>
+    
+    {{-- <div class="text-right">
+        <a class=" btn btn-primary" href=" {{route('skill.index')}} " role="button">Next Section</a>
+    </div> --}}
     
 @endsection

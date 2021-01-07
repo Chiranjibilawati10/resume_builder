@@ -14,7 +14,10 @@ class UserDetailController extends Controller
      */
     public function index()
     {
-        //
+        $details = auth()->user()->details;
+
+
+        return view('user-detail.index', compact('details'));
     }
 
     /**
@@ -24,7 +27,7 @@ class UserDetailController extends Controller
      */
     public function create()
     {
-        return view('user_detail.create');
+        return view('user-detail.create');
     }
 
     /**
@@ -40,6 +43,7 @@ class UserDetailController extends Controller
             'email'=>'required',
             'phone'=>'required',
             'address'=>'required',
+            'summary'=>'required',
         ]);
 
         $detail = new  UserDetail();
@@ -49,6 +53,7 @@ class UserDetailController extends Controller
         $detail->email = $request->input('email');
         $detail->phone = $request->input('phone');
         $detail->address = $request->input('address');
+        $detail->summary = $request->input('summary');
         //getting currently aunthenticated user id
         $detail->user_id = auth()->id();
         $detail->save();
@@ -75,7 +80,7 @@ class UserDetailController extends Controller
      */
     public function edit(UserDetail $userDetail)
     {
-        //
+        return view('user-detail.edit', compact('userDetail'));
     }
 
     /**
@@ -87,7 +92,17 @@ class UserDetailController extends Controller
      */
     public function update(Request $request, UserDetail $userDetail)
     {
-        //
+        $request->validate([
+            'fullname'=>'required',
+            'email'=>'required',
+            'phone'=>'required',
+            'address'=>'required',
+            'summary'=>'required',
+        ]);
+
+        $userDetail->update($request->except('_token'));
+
+        return redirect()->route('user-detail.index');
     }
 
     /**
@@ -98,6 +113,8 @@ class UserDetailController extends Controller
      */
     public function destroy(UserDetail $userDetail)
     {
-        //
+        $userDetail->delete();
+
+        return back();
     }
 }

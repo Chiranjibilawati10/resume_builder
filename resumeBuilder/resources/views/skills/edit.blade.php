@@ -16,7 +16,7 @@
             <!-- Skill rating input -->
             <div class="form-outline mb-4">
               <input type="text" name="rating" class="form-control" value="{{$skill->rating}}" />
-              <label class="form-label">Rating</label>
+              <label class="form-label">Rating(Max-5)</label>
             </div>
           
             <!-- Submit button -->

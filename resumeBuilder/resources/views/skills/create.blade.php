@@ -15,12 +15,12 @@
             <!-- Skill rating input -->
             <div class="form-outline mb-4">
               <input type="text" name="rating" class="form-control" />
-              <label class="form-label" >Rating</label>
+              <label class="form-label" >Rating (Max-5)</label>
             </div>
             
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary btn-block mb-4" value="submit">Save Skill</button>
-            <a class="btn btn-primary mt-8" href="{{ route('skill.index')}}" role="button">Skills</a>
+            {{-- <a class="btn btn-primary mt-8" href="{{ route('skill.index')}}" role="button">Skills</a> --}}
             
           </form>
          
