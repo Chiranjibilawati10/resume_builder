@@ -58,7 +58,7 @@ class UserDetailController extends Controller
         $detail->user_id = auth()->id();
         $detail->save();
 
-        return redirect()->route('education.create');
+        return redirect()->route('education.index');
     }
 
     /**

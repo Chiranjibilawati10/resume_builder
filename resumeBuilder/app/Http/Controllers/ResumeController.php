@@ -19,4 +19,5 @@ class ResumeController extends Controller
         $pdf = \PDF::loadView('resume', compact('user'));
         return $pdf->download('resume.pdf');
     }
+    
 }

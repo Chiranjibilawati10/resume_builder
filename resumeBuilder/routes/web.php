@@ -31,3 +31,4 @@ Route::get('resume', 'ResumeController@index')->name('resume.index')->middleware
 Route::get('resume/download', 'ResumeController@download')->name('resume.download')->middleware('auth');
 
 
+
