@@ -41,16 +41,71 @@ class ApiResumeController extends Controller
         }
     }
 
-    public function jsonData()
+   public function jsonData()
     {
-        $fullname = auth()->user()->experiences();
-        dd($fullname);
-        $email = auth()->user()->details()->email;
-        $phone = auth()->user()->details()->phone;
-        $address = auth()->user()->details()->address;
+        $user = auth()->user();
+        $experiences = $user->experiences()->get()->toArray();
+        $education   = $user->education()->get()->toArray();
+        $skills  = $user->skills()->get()->toArray();
+        $details = $user->details()->get()->toArray();
         
+        $resume_full_info = [
+            'details'     => [],
+            'education'   => [],
+            'experiences' => [],
+            'skills'      => [],
+        ];
+        //getting required data from user details
+        foreach ($details as $detail) {
+            $detail_stack = [
+                'fullname' => $detail['fullname'],
+                'email' => $detail['email'],
+                'phone' => $detail['phone'],
+                'address' => $detail['address'],
+                'summary' => $detail['summary'],
+            ];
+            array_push($resume_full_info['details'], $detail_stack);
+        }
 
+        //getting required data from user education
+        foreach($education as $education) {
+            $education_stack = [
+                'school_name' => $education['school_name'],
+                'school_location'  => $education['school_location'],
+                'degree'      => $education['degree'],
+                'field_of_study'     => $education['field_of_study'],
+                'graduation_start_date' => $education['graduation_start_date'],
+                'graduation_end_date'   => $education['graduation_end_date'],
+            ];
+
+            array_push($resume_full_info['education'], $education_stack);
+        }
+
+        //getting required data from user experiences
+        foreach($experiences as $experience) {
+            $experience_stack = [
+                'job_title' => $experience['job_title'],
+                'employer'  => $experience['employer'],
+                'city'      => $experience['city'],
+                'state'     => $experience['state'],
+                'start_date' => $experience['start_date'],
+                'end_date'   => $experience['end_date'],
+            ];
+
+            array_push($resume_full_info['experiences'], $experience_stack);
+        }
+        
+        //getting required data from user skills
+
+        foreach($skills as $skill) {
+            $skill_stack = [
+                'name' => $skill['name'],
+                'rating'  => $skill['rating'],
+            ];
+
+            array_push($resume_full_info['skills'], $skill_stack);
+        }
       
-        return response()->json($fullname, 200);
+        return response()->json($resume_full_info, 200);
     }
 }
