@@ -26,9 +26,11 @@ Route::resource('user-detail', 'UserDetailController')->middleware('auth');
 Route::resource('education', 'EducationController')->middleware('auth');
 Route::resource('experience', 'ExperienceController')->middleware('auth');
 Route::resource('skill', 'SkillController')->middleware('auth');
+Route::resource('roles', 'RoleController')->middleware('auth');
+Route::resource('users', 'UserController')->middleware('auth');
+Route::resource('themes', 'ThemeController')->middleware('auth');
+
 
 Route::get('resume', 'ResumeController@index')->name('resume.index')->middleware('auth');
 Route::get('resume/download', 'ResumeController@download')->name('resume.download')->middleware('auth');
-
-
 
