@@ -140,7 +140,7 @@
                   <li class="breadcrumb-item "><a href="{{ route('users.index') }}">User Management</a></li>
                   <li class="breadcrumb-item "><a href="{{ route('roles.index')}}">Role Management</a></li>
                   <li class="breadcrumb-item "><a href="{{ route('themes.index')}}">Theme Management</a></li>
-                  <li class="breadcrumb-item "><a href="#">Login Information</a></li>
+
                 </ol>
             </nav>
 

@@ -18,9 +18,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         $data = User::orderBy('id', 'DESC')->where('email','!=','superAdmin@gmail.com')->paginate(5);
-
         return view('users.index', compact('data'))
         ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -137,4 +136,5 @@ class UserController extends Controller
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
     }
+    
 }

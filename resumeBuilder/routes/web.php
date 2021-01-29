@@ -13,24 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::view('/','main');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//using resource route
-Route::resource('user-detail', 'UserDetailController')->middleware('auth');
-Route::resource('education', 'EducationController')->middleware('auth');
-Route::resource('experience', 'ExperienceController')->middleware('auth');
-Route::resource('skill', 'SkillController')->middleware('auth');
-Route::resource('roles', 'RoleController')->middleware('auth');
-Route::resource('users', 'UserController')->middleware('auth');
-Route::resource('themes', 'ThemeController')->middleware('auth');
+Route::group(['middleware' => 'auth'], function(){
+    //using resource route
+    Route::resource('user-detail', 'UserDetailController');
+    Route::resource('education', 'EducationController');
+    Route::resource('experience', 'ExperienceController');
+    Route::resource('skill', 'SkillController');
+    Route::resource('roles', 'RoleController');
+    Route::resource('users', 'UserController');
+    Route::resource('themes', 'ThemeController');
 
+    Route::get('resume', 'ResumeController@index')->name('resume.index');
+    Route::get('resume/download', 'ResumeController@download')->name('resume.download');
+});
 
-Route::get('resume', 'ResumeController@index')->name('resume.index')->middleware('auth');
-Route::get('resume/download', 'ResumeController@download')->name('resume.download')->middleware('auth');
 

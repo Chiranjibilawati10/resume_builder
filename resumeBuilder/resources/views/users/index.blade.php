@@ -28,6 +28,9 @@
     <th>Name</th>
     <th>Email</th>
     <th>Roles</th>
+    <th>Last Login</th>
+    <th>Last Login IP</th>
+
     <th width="280px">Action</th>
   </tr>
 
@@ -36,6 +39,7 @@
       <td>{{  ++$i}}</td>
       <td>{{ $user->name }}</td>
       <td>{{ $user->email }}</td>
+
       <td>
 
         @if(!empty($user->getRoleNames()))
@@ -44,6 +48,17 @@
           @endforeach
         @endif
       </td>
+      @if(!empty($user->last_login_at))
+        <td>{{ $user->last_login_at }}</td>
+      @else
+        <td>No Data</td>
+      @endif
+
+      @if(!empty($user->last_login_ip))
+      <td>{{ $user->last_login_ip}}</td>
+      @else
+        <td>No Data</td>
+      @endif
       <td>
         @can('user-show')
           <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
@@ -62,5 +77,6 @@
   </table>
 
 {!! $data->render() !!}
+
 @endcan
 @endsection
