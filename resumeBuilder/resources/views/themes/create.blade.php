@@ -2,53 +2,41 @@
 
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Add New Theme</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('themes.index') }}"> Back</a>
-            </div>
-        </div>
-    </div>
-
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-
+<div class="container">
     <form action="{{ route('themes.store') }}" method="POST">
-    	@csrf
+        @csrf
+        @if (Session::has('success'))
+            <div class="alert alert-success text-center">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <p>{{ Session::get('success') }}</p>
+            </div>
+        @endif
+        <table class="table table-bordered" id="dynamicAddRemove">  
+            <tr>
+            <th>Theme Name</th>
+            <th>Theme Type</th>
+            <th>Action</th>
+            </tr>
+            <tr>  
+            <td><input type="text" name="moreFields[0][name]" placeholder="Enter Theme Name" class="form-control" /></td>  
+            <td><input type="text" name="moreFields[0][type]" placeholder="Enter Theme Type" class="form-control" /></td>  
+            <td><button type="button" name="add" id="addBtn" class="btn btn-success">Add Theme More</button></td>  
+            </tr>  
+        </table> 
+        <button type="submit" class="btn btn-success">Save</button>
+        </form>
 
-         <div class="row">
-		    <div class="col-xs-12 col-sm-12 col-md-12">
-		        <div class="form-group">
-		            <strong>Name:</strong>
-		            <input type="text" name="name" class="form-control" placeholder="Name">
-		        </div>
-		    </div>
-
-		    <div class="col-xs-12 col-sm-12 col-md-12">
-		        <div class="form-group">
-		            <strong>Type:</strong>
-		            <textarea class="form-control" style="height:150px" name="type" placeholder="Type"></textarea>
-		        </div>
-		    </div>
-
-		    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-		            <button type="submit" class="btn btn-primary">Submit</button>
-		    </div>
-		</div>
-
-    </form>
-
+</div>
 @endsection
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+    var i = 0;
+    $("#addBtn").click(function(){
+        ++i;
+        $("#dynamicAddRemove").append('<tr><td><input type="text" name="moreFields['+i+'][name]" placeholder="Enter Theme Name" class="form-control" /></td><td><input type="text" name="moreFields['+i+'][type]" placeholder="Enter Theme Type" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
+        });
+    $(document).on('click', '.remove-tr', function(){  
+        $(this).parents('tr').remove();
+    }); 
+}); 
+</script>

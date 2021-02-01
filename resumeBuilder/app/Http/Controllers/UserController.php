@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\User;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Auth;
+use App\Events\UserCreated;
 
 class UserController extends Controller
 {
@@ -56,8 +58,11 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
+         // call our event here
+         event(new UserCreated($user));
+  
         return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+                        ->with(compact('user'));
     }
 
     /**
@@ -98,7 +103,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
 

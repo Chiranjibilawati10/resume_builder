@@ -47,15 +47,24 @@ class ThemeController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'name' => 'required',
-            'type' => 'required',
+        // request()->validate([
+        //     'name' => 'required',
+        //     'type' => 'required',
+        // ]);
+
+        // Theme::create($request->all());
+
+        // return redirect()->route('themes.index')
+        //                 ->with('success','Theme created successfully.');
+        $request->validate([
+            'moreFields.*.name' => 'required',
+            'moreFields.*.type' => 'required',
         ]);
-
-        Theme::create($request->all());
-
+        foreach ($request->moreFields as $key => $value) {
+            Theme::create($value);
+        }
         return redirect()->route('themes.index')
-                        ->with('success','Theme created successfully.');
+        ->with('success','Theme created successfully.');
     }
 
     /**
