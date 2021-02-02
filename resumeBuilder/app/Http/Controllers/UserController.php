@@ -11,6 +11,10 @@ use DB;
 use Hash;
 use Auth;
 use App\Events\UserCreated;
+use App\Mail\InviteUser;
+use Carbon\Carbon;
+use App\Invitation;
+use Illuminate\Support\Facades\Notification;
 
 class UserController extends Controller
 {
@@ -47,22 +51,39 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
+            // 'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
 
     
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
+        // $input['password'] = Hash::make($input['password']);
 
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
          // call our event here
-         event(new UserCreated($user));
-  
+        //  event(new UserCreated($user));
+        do {
+            //token generation with random string
+            $token = Str::random(16);
+        }//checking token existence
+        while (Invitation::where('token', $token)->first());
+
+        $invitation = new Invitation();
+        $invitation->token = $token;
+        $invitation->user_id = $user->id;
+        $invitation->invited_id = auth()->user()->id;
+        $invitation->save();
+
+        //checking for user role
+        if(in_array('admin',$request->input('roles'))){
+            Notification::send($user, new \App\Notifications\AdminInvite($invitation));
+        }else{
+            Notification::send($user, new \App\Notifications\UserInvite($invitation));
+        }
         return redirect()->route('users.index')
-                        ->with(compact('user'));
+                        ->with('success','User created successfully.');
     }
 
     /**
@@ -104,18 +125,18 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
+            // 'password' => 'same:confirm-password',
             'roles' => 'required'
 
         ]);
 
     
         $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = array_except($input,array('password'));    
-        }
+        // if(!empty($input['password'])){ 
+        //     $input['password'] = Hash::make($input['password']);
+        // }else{
+        //     $input = array_except($input,array('password'));    
+        // }
 
     
         $user = User::find($id);

@@ -16,11 +16,13 @@ class UserSeeder extends Seeder
     {
         $user = User::create([
         	'name' => 'Chiranjibi Lawati', 
-        	'email' => 'superAdmin@gmail.com',
-        	'password' => bcrypt('12345678')
+            'email' => 'superAdmin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'),
+            'active' => 1,
         ]);
 
-        $role = Role::create(['name' => 'Super Admin']);
+        $role = Role::create(['name' => 'superAdmin']);
         $permissions = Permission::pluck('id','id')->all();
         
         $role->syncPermissions($permissions);

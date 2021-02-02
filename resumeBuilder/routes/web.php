@@ -15,9 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/','main');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/invitation/accept/{token}', 'InvitationController@edit')->name('invitation.accept');
+Route::post('/invitation/accept/{user}', 'InvitationController@update')->name('invitation.accept');
 
 Route::group(['middleware' => 'auth'], function(){
     //using resource route
@@ -31,6 +34,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('resume', 'ResumeController@index')->name('resume.index');
     Route::get('resume/download', 'ResumeController@download')->name('resume.download');
+    
+
 });
 
 

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Education;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,6 +41,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'notification_preference'=>'array'
     ];
 //user and education relation
     public function education()
@@ -59,5 +61,8 @@ class User extends Authenticatable
     public function details()
     {
         return $this->hasOne(UserDetail::class);
+    }
+    public function isActive(){
+        return $this->active == 1;
     }
 }
