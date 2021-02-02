@@ -27,7 +27,7 @@ class NotifyUserCreated
      */
     public function handle(UserCreated $event)
     {
-        dd($event);
+        
         $user_data = array('name' => $event->user->name, 'email' => $event->user->email, 'body' =>'Welcome to the CV maker website.Please click the given to activate your account.');
         Mail::send('emails.mail', $user_data, function($message) use ($user_data){
             $message->to($user_data['email'])
