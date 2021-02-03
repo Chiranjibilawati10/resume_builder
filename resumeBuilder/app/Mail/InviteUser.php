@@ -13,7 +13,8 @@ class InviteUser extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $invitation, $user;
+    public $invitation;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -33,6 +34,6 @@ class InviteUser extends Mailable
      */
     public function build()
     {
-        return $this->from('chiranjibi.codewing@gmail.com')->markdown('emails.invitation');
+        return $this->from('chiranjibilawati08@gmail.com')->markdown('emails.accept-invitation');
     }
 }

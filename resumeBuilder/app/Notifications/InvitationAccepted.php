@@ -29,7 +29,7 @@ class InvitationAccepted extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return $notifiable->notification_preference;
     }
 
     /**
@@ -40,10 +40,22 @@ class InvitationAccepted extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = route('users.index');
+        $subject = $this->user->name.' has accepted your invitation';
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject($subject)
+            ->markdown('emails.accept-invitation',['url' => $url,'user'=>$notifiable, 'subject'=>$subject]);
+    }
+
+    public function toDatabase($notifiable)
+    {
+        $url = route('users.index');
+        $subject = $this->user->name.' has accepted your invitation';
+        return [
+            'user'=>$this->user->id,
+            'content'=>$subject,
+            'link'=> $url
+        ];
     }
 
     /**

@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('resume', 'ResumeController@index')->name('resume.index');
     Route::get('resume/download', 'ResumeController@download')->name('resume.download');
     
-
+    Route::get('notification/{id}', 'UserNotificationController@show')->name('notification.view');
 });
 
 

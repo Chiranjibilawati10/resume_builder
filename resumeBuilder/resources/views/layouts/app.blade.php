@@ -10,10 +10,9 @@
     <title>Resume Builder</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"></script>
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -96,6 +95,107 @@
                                 </li>
                             @endif
                         @else
+                                <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Notification
+                        </button>
+                                <!-- Notification Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabel">User Notifications </h3>
+                                    
+                                    <span class="btn btn-text btn-success">
+                                        {{auth()->guard('web')->user()->unreadNotifications()->count()}} New
+                                    </span>
+                                    
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url({{url('/media/misc/bg-1.jpg')}})">
+                                                
+                                                <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active show" data-toggle="tab" href="#topbar_notifications_notifications">New</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#topbar_notifications_events">Read</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <div class="tab-content">
+                                                <div class="tab-pane active show p-8" id="topbar_notifications_notifications" role="tabpanel">
+                                                    <div class="scroll pr-7 mr-n7" data-scroll="true" data-height="300" data-mobile-height="200">
+                                                        @forelse( auth()->guard('web')->user()->unreadNotifications as $notification)
+                                                        <div class="d-flex align-items-center mb-6">
+                                                            <div class="symbol symbol-40 symbol-light-primary mr-5">
+                                                                <span class="symbol-label">
+                                                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                                <path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="#000000" />
+                                                                                <rect fill="#000000" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)" x="16.3255682" y="2.94551858" width="3" height="18" rx="1" />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="d-flex flex-column font-weight-bold">
+                                                                <a href="{{ route('notification.view',$notification) }}" class="text-dark text-hover-primary mb-1 font-size-lg">{{ $notification->data['content'] }}</a>
+                                                                {{-- <span class="text-muted">Marketing campaign planning</span> --}}
+                                                            </div>
+                                                        </div>
+                                                        @empty
+                                                            <div class="d-flex flex-center text-center text-muted min-h-200px">All caught up!
+                                                            <br />No new notifications.</div>
+                                                        @endforelse
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane p-8" id="topbar_notifications_events" role="tabpanel">
+                                                    <div class="scroll pr-7 mr-n7" data-scroll="true" data-height="300" data-mobile-height="200">
+                                                        @forelse( auth()->guard('web')->user()->readNotifications as $notification)
+                                                        <div class="d-flex align-items-center mb-6">
+                                                            <div class="symbol symbol-40 symbol-light-primary mr-5">
+                                                                <span class="symbol-label">
+                                                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                                <path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="#000000" />
+                                                                                <rect fill="#000000" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)" x="16.3255682" y="2.94551858" width="3" height="18" rx="1" />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="d-flex flex-column font-weight-bold">
+                                                                <a href="{{ route('notification.view',$notification) }}" class="text-dark text-hover-primary mb-1 font-size-lg">{{ $notification->data['content'] }}</a>
+                                                                {{-- <span class="text-muted">Marketing campaign planning</span> --}}
+                                                            </div>
+                                                        </div>
+                                                        @empty
+                                                            <div class="d-flex flex-center text-center text-muted min-h-200px">All caught up!
+                                                            <br />No new notifications.</div>
+                                                        @endforelse
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -147,10 +247,8 @@
 
                 </ol>
             </nav>
-
             @yield('content')
         </main>
     </div>
-    @stack('script')
 </body>
 </html>

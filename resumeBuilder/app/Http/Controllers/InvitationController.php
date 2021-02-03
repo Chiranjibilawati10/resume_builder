@@ -36,6 +36,15 @@ class InvitationController extends Controller
         $user->active  = 1;
         $user->save();
 
+        $invitations = Invitation::where('user_id',$user->id)->get();
+        foreach($invitations as $invite)
+        {
+            //send notification to the inviter
+            Notification::send($invite->invitor, new \App\Notifications\InvitationAccepted($user));
+        }
+        Invitation::where('user_id',$user->id)->delete();
+
+
         Auth::login($user);
         return redirect('/')->with('success', 'Invitation accepted');
     }
